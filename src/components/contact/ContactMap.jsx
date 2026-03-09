@@ -131,7 +131,7 @@ export default function ContactMap() {
               <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-auto md:max-w-sm">
                 <div className="bg-white/95 backdrop-blur-md rounded-xl p-4 md:p-6 border border-amber-200/60 shadow-2xl">
                   <h3 className="text-lg font-bold text-amber-950 mb-2">
-                    CodeCulture Studios
+                    CodeCulture
                   </h3>
                   <p className="text-amber-900/70 text-sm mb-4 leading-relaxed">
                     Phase 3, Noida
