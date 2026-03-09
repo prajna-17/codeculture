@@ -15,6 +15,7 @@ export default function Technologies() {
 
   const [index, setIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -43,13 +44,21 @@ export default function Technologies() {
     return () => observer.disconnect();
   }, []);
 
+  // Check mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Auto-play carousel
   useEffect(() => {
     if (!autoPlay || isDragging) return;
 
     autoPlayRef.current = setInterval(() => {
       setIndex((prev) => (prev + 1) % tech.length);
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(autoPlayRef.current);
   }, [autoPlay, isDragging]);
@@ -101,7 +110,7 @@ export default function Technologies() {
     setTimeout(() => setAutoPlay(true), 2000);
   };
 
-  // Mouse drag handlers for desktop
+  // Mouse drag handlers
   const handleMouseDown = (e) => {
     if (e.button !== 0) return;
     setTouchStart(e.clientX);
@@ -136,7 +145,7 @@ export default function Technologies() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-gradient-to-br from-[#7A360D] via-[#6a2e0a] to-[#7A360D] text-white pt-20 pb-40 overflow-hidden"
+      className="relative bg-gradient-to-br from-[#6a2e0a] via-[#7A360D] to-[#6a2e0a] text-white py-16 md:py-24 overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
@@ -156,7 +165,7 @@ export default function Technologies() {
         @keyframes slideInLeft {
           from {
             opacity: 0;
-            transform: translateX(-60px);
+            transform: translateX(-40px);
           }
           to {
             opacity: 1;
@@ -167,7 +176,7 @@ export default function Technologies() {
         @keyframes slideInRight {
           from {
             opacity: 0;
-            transform: translateX(60px);
+            transform: translateX(40px);
           }
           to {
             opacity: 1;
@@ -175,72 +184,65 @@ export default function Technologies() {
           }
         }
 
-        @keyframes dance {
-          0% {
-            transform: translateY(0px) scale(1);
-          }
-          25% {
-            transform: translateY(-8px) scale(1.02);
-          }
-          50% {
-            transform: translateY(-15px) scale(1.03);
-          }
-          75% {
-            transform: translateY(-8px) scale(1.02);
-          }
-          100% {
-            transform: translateY(0px) scale(1);
-          }
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-        }
-
         @keyframes pulse {
           0%, 100% { 
             box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4);
           }
           50% { 
-            box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);
+            box-shadow: 0 0 0 8px rgba(255, 140, 0, 0);
           }
         }
 
         @keyframes glow {
           0%, 100% {
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.3), inset 0 0 20px rgba(255, 140, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.2), inset 0 0 15px rgba(255, 140, 0, 0.05);
           }
           50% {
-            box-shadow: 0 0 40px rgba(255, 140, 0, 0.6), inset 0 0 30px rgba(255, 140, 0, 0.2);
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.4), inset 0 0 20px rgba(255, 140, 0, 0.1);
           }
         }
 
         @keyframes bounce {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+          50% { transform: translateY(-8px); }
         }
 
-        /* TITLE STYLES */
+        /* HEADER */
+        .tech-header {
+          margin-bottom: 2.5rem;
+          animation: fadeInUp 0.8s ease-out;
+        }
+
+        @media (min-width: 768px) {
+          .tech-header {
+            margin-bottom: 4rem;
+          }
+        }
+
         .tech-section-title {
           display: flex;
           align-items: center;
           gap: 1rem;
-          margin-bottom: 4rem;
-          animation: slideInLeft 0.8s ease-out;
+          margin-bottom: 1.25rem;
         }
 
         .title-bar {
           width: 3px;
-          height: 3.5rem;
+          height: 2.5rem;
           background: linear-gradient(180deg, #ff8c00, #ff6b35);
           border-radius: 2px;
-          box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
+          box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
           animation: bounce 2s ease-in-out infinite;
         }
 
+        @media (min-width: 768px) {
+          .title-bar {
+            height: 3rem;
+          }
+        }
+
         .tech-title {
-          font-size: 2.25rem;
+          font-size: 1.75rem;
           line-height: 1.2;
           font-weight: 900;
           letter-spacing: -0.02em;
@@ -249,128 +251,162 @@ export default function Technologies() {
 
         @media (min-width: 768px) {
           .tech-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
           }
         }
 
         .tech-description {
-          margin-top: 1.5rem;
-          color: #ccc;
-          max-width: 28rem;
+          margin-top: 1rem;
+          color: #d4d4d4;
+          max-width: 32rem;
           line-height: 1.6;
+          font-size: 0.95rem;
           animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
-        /* CAROUSEL WRAPPER */
+        @media (min-width: 768px) {
+          .tech-description {
+            margin-top: 1.25rem;
+            font-size: 1rem;
+            line-height: 1.7;
+          }
+        }
+
+        /* CAROUSEL CONTAINER */
+        .carousel-section {
+          position: relative;
+          width: 100%;
+          animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .slider-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          width: 100%;
+        }
+
+        @media (min-width: 768px) {
+          .slider-wrapper {
+            gap: 2rem;
+          }
+        }
+
+        .carousel-wrapper {
+          flex: 1;
+          overflow: hidden;
+          cursor: grab;
+          user-select: none;
+        }
+
+        .carousel-wrapper.dragging {
+          cursor: grabbing;
+        }
+
         .carousel-container {
           position: relative;
           width: 100%;
-          height: auto;
           touch-action: pan-y;
           user-select: none;
-          overflow: hidden;
         }
 
-        .carousel-track {
-          display: flex;
-          gap: 1.5rem;
-          transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-          transform: translateX(calc(${-index * 100}% - ${-index * 0.375}rem));
+        // 
+
+        @media (min-width: 768px) {
+          .carousel-track {
+            gap: 1.5rem;
+            transform: translateX(calc(${-index * 100}% - ${index * 0.375}rem));
+          }
         }
 
         .carousel-track.dragging {
           transition: none;
-          transform: translateX(calc(${-index * 100}% - ${-index * 0.375}rem + ${dragOffset}px));
         }
 
-        @media (min-width: 768px) {
-          .carousel-track {
-            gap: 2rem;
-            transform: translateX(calc(${-index * 100}% - ${-index * 0.5}rem));
-          }
+       
 
-          .carousel-track.dragging {
-            transform: translateX(calc(${-index * 100}% - ${-index * 0.5}rem + ${dragOffset}px));
-          }
-        }
+      
 
         /* TECH CARD */
         .tech-card {
           min-width: 100%;
           flex-shrink: 0;
-          animation: fadeInUp 0.8s ease-out 0.2s both;
+          display: flex;
+          flex-direction: column;
+          animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .tech-card:nth-child(1) { animation-delay: 0.3s; }
+        .tech-card:nth-child(2) { animation-delay: 0.4s; }
+        .tech-card:nth-child(3) { animation-delay: 0.5s; }
+        .tech-card:nth-child(4) { animation-delay: 0.6s; }
+        .tech-card:nth-child(5) { animation-delay: 0.7s; }
+
+        .tech-number {
+          font-size: 1.5rem;
+          font-weight: 900;
+          margin-bottom: 0.75rem;
+          opacity: 0.6;
+          color: #ff8c00;
+          animation: pulse 2s infinite;
         }
 
         @media (min-width: 768px) {
-          .tech-card {
-            min-width: 90%;
-            max-width: 90%;
+          .tech-number {
+            font-size: 2rem;
+            margin-bottom: 1rem;
           }
-        }
-
-        @media (min-width: 1024px) {
-          .tech-card {
-            min-width: 80%;
-            max-width: 80%;
-          }
-        }
-
-        .tech-number {
-          font-size: 2.5rem;
-          font-weight: 900;
-          margin-bottom: 1rem;
-          opacity: 0.7;
-          color: #ff8c00;
-          animation: pulse 2s infinite;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         .tech-image {
           position: relative;
           width: 100%;
-          height: 250px;
-          border-radius: 20px;
+          aspect-ratio: 4/3;
+          border-radius: 16px;
           overflow: hidden;
-          border: 3px solid rgba(255, 140, 0, 0.3);
+          border: 2px solid rgba(255, 140, 0, 0.25);
           margin-bottom: 1rem;
-          box-shadow: 0 15px 40px rgba(255, 140, 0, 0.25);
+          box-shadow: 0 10px 30px rgba(255, 140, 0, 0.15);
           animation: glow 2s ease-in-out infinite;
-          background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 107, 53, 0.05));
+          background: linear-gradient(135deg, rgba(255, 140, 0, 0.08), rgba(255, 107, 53, 0.04));
           transition: all 0.3s ease;
         }
 
         @media (min-width: 768px) {
           .tech-image {
-            height: 300px;
+            border-radius: 18px;
+            margin-bottom: 1.25rem;
+            border-width: 2px;
           }
         }
 
         .tech-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
           transition: transform 0.3s ease;
         }
 
         .tech-card:hover .tech-image {
           border-color: #ff8c00;
-          box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4), inset 0 0 30px rgba(255, 140, 0, 0.1);
+          box-shadow: 0 15px 45px rgba(255, 140, 0, 0.3), inset 0 0 20px rgba(255, 140, 0, 0.08);
         }
 
         .tech-card:hover .tech-image img {
-          transform: scale(1.1);
+          transform: scale(1.08);
         }
 
         .tech-name {
-          font-size: 1.5rem;
+          font-size: 1.25rem;
           font-weight: 700;
           color: #ff8c00;
           text-align: center;
-          text-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
-          margin-bottom: 1rem;
+          text-shadow: 0 0 8px rgba(255, 140, 0, 0.2);
         }
 
         @media (min-width: 768px) {
           .tech-name {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
           }
         }
 
@@ -380,54 +416,40 @@ export default function Technologies() {
           backdrop-filter: blur(10px);
           border: 2px solid rgba(255, 140, 0, 0.3);
           color: white;
-          padding: 0.75rem;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          flex-shrink: 0;
-          animation: slideInLeft 0.8s ease-out 0.4s both;
-          z-index: 20;
-          position: relative;
           display: none;
-        }
-
-        @media (min-width: 768px) {
-          .slider-button {
-            display: block;
-          }
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          z-index: 20;
+          animation: slideInLeft 0.8s ease-out 0.4s both;
         }
 
         .slider-button:last-of-type {
           animation: slideInRight 0.8s ease-out 0.4s both;
         }
 
+        @media (min-width: 768px) {
+          .slider-button {
+            display: flex;
+            width: 48px;
+            height: 48px;
+          }
+        }
+
         .slider-button:hover {
-          background: rgba(255, 140, 0, 0.3);
+          background: rgba(255, 140, 0, 0.2);
           border-color: #ff8c00;
-          box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
-          transform: scale(1.2);
+          box-shadow: 0 0 20px rgba(255, 140, 0, 0.4);
+          transform: scale(1.1);
         }
 
         .slider-button:active {
           transform: scale(0.95);
-        }
-
-        /* SLIDER WRAPPER */
-        .slider-wrapper {
-          display: flex;
-          align-items: center;
-          gap: 2.5rem;
-          width: 100%;
-        }
-
-        .carousel-wrapper {
-          flex: 1;
-          overflow: hidden;
-          cursor: grab;
-        }
-
-        .carousel-wrapper.dragging {
-          cursor: grabbing;
         }
 
         /* MOBILE CONTROLS */
@@ -448,21 +470,25 @@ export default function Technologies() {
           background: rgba(255, 140, 0, 0.1);
           border: 2px solid rgba(255, 140, 0, 0.3);
           color: white;
-          padding: 0.75rem;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           cursor: pointer;
           transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           z-index: 20;
         }
 
         .mobile-button:active {
           background: rgba(255, 140, 0, 0.3);
           border-color: #ff8c00;
-          transform: scale(0.95);
-          box-shadow: 0 0 20px rgba(255, 140, 0, 0.4);
+          transform: scale(0.92);
+          box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
         }
 
-        /* DOTS */
+        /* DOTS INDICATOR */
         .scroll-dots {
           display: flex;
           gap: 0.5rem;
@@ -477,20 +503,20 @@ export default function Technologies() {
           border-radius: 50%;
           background: rgba(255, 140, 0, 0.2);
           cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          border: 2px solid transparent;
+          transition: all 0.3s ease;
+          border: none;
         }
 
         .dot:hover {
           background: rgba(255, 140, 0, 0.5);
-          transform: scale(1.3);
+          transform: scale(1.25);
         }
 
         .dot.active {
           background: #ff8c00;
           width: 24px;
           border-radius: 4px;
-          box-shadow: 0 0 15px rgba(255, 140, 0, 0.5);
+          box-shadow: 0 0 12px rgba(255, 140, 0, 0.5);
           animation: pulse 2s infinite;
         }
 
@@ -507,96 +533,109 @@ export default function Technologies() {
 
         .wave-svg {
           width: 100%;
-          height: 160px;
-          filter: drop-shadow(0 -2px 5px rgba(0, 0, 0, 0.2));
+          height: 100px;
+          filter: drop-shadow(0 -2px 5px rgba(0, 0, 0, 0.15));
         }
 
-        .wave-blur {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 4rem;
-          background: white;
-          filter: blur(2rem);
-          opacity: 0.4;
+        @media (min-width: 768px) {
+          .wave-svg {
+            height: 140px;
+          }
         }
       `}</style>
 
-      <div className="max-w-[1300px] mx-auto px-6 md:px-8 relative z-10">
-        {/* TITLE */}
-        <div className="mb-16">
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+        {/* HEADER */}
+        <div className="tech-header">
           <div className="tech-section-title">
             <div className="title-bar"></div>
             <h2 className="tech-title">Technologies We Use</h2>
           </div>
-
           <p className="tech-description">
             We leverage cutting-edge tools and frameworks to build scalable,
             high-performance solutions tailored to your needs.
           </p>
         </div>
 
-        {/* CAROUSEL SLIDER - SAME FOR DESKTOP AND MOBILE */}
-        <div className="slider-wrapper">
-          <button onClick={prev} className="slider-button">
-            <ChevronLeft size={28} />
-          </button>
+        {/* CAROUSEL */}
+        <div className="carousel-section">
+          <div className="slider-wrapper">
+            <button
+              onClick={prev}
+              className="slider-button"
+              aria-label="Previous"
+            >
+              <ChevronLeft size={24} />
+            </button>
 
-          <div
-            className={`carousel-wrapper ${isDragging ? "dragging" : ""}`}
-            ref={carouselRef}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            <div className={`carousel-track ${isDragging ? "dragging" : ""}`}>
-              {tech.map((item, i) => (
-                <div key={item.id} className="tech-card">
-                  <p className="tech-number">
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
+            <div
+              className={`carousel-wrapper ${isDragging ? "dragging" : ""}`}
+              ref={carouselRef}
+              onMouseDown={handleMouseDown}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                className={`carousel-track ${isDragging ? "dragging" : ""}`}
+                style={{
+                  transform: isDragging
+                    ? `translateX(calc(${-index * 100}% + ${dragOffset}px))`
+                    : `translateX(-${index * 100}%)`,
+                }}
+              >
+                {" "}
+                {tech.map((item, i) => (
+                  <div key={item.id} className="tech-card">
+                    <p className="tech-number">
+                      {String(i + 1).padStart(2, "0")}
+                    </p>
 
-                  <div className="tech-image">
-                    <Image
-                      src={item.img}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                    />
+                    <div className="tech-image">
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    <p className="tech-name">{item.title}</p>
                   </div>
-
-                  <p className="tech-name">{item.title}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
+
+            <button onClick={next} className="slider-button" aria-label="Next">
+              <ChevronRight size={24} />
+            </button>
           </div>
 
-          <button onClick={next} className="slider-button">
-            <ChevronRight size={28} />
-          </button>
-        </div>
+          {/* MOBILE CONTROLS */}
+          <div className="mobile-controls">
+            <button
+              onClick={prev}
+              className="mobile-button"
+              aria-label="Previous"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button onClick={next} className="mobile-button" aria-label="Next">
+              <ChevronRight size={20} />
+            </button>
+          </div>
 
-        {/* MOBILE CONTROLS */}
-        <div className="mobile-controls">
-          <button onClick={prev} className="mobile-button">
-            <ChevronLeft size={24} />
-          </button>
-
-          <button onClick={next} className="mobile-button">
-            <ChevronRight size={24} />
-          </button>
-        </div>
-
-        {/* DOTS INDICATOR */}
-        <div className="scroll-dots">
-          {tech.map((_, i) => (
-            <div
-              key={i}
-              className={`dot ${i === index ? "active" : ""}`}
-              onClick={() => goToSlide(i)}
-            />
-          ))}
+          {/* DOTS */}
+          <div className="scroll-dots">
+            {tech.map((_, i) => (
+              <button
+                key={i}
+                className={`dot ${i === index ? "active" : ""}`}
+                onClick={() => goToSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -612,8 +651,6 @@ export default function Technologies() {
             d="M0,160 C360,80 1080,240 1440,140 L1440,320 L0,320 Z"
           />
         </svg>
-
-        <div className="wave-blur"></div>
       </div>
     </section>
   );

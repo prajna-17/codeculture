@@ -328,6 +328,8 @@ export default function WhyCodeCulture() {
 
         .carousel-slide {
           flex: 0 0 100%;
+            min-width: 100%;
+
           animation: carouselSlide 0.5s ease-out forwards;
         }
 
@@ -707,15 +709,22 @@ export default function WhyCodeCulture() {
         {/* MOBILE CAROUSEL */}
         <div className="mobile-carousel">
           <div className="carousel-container">
-            <div className="carousel-track">
-              <div className="carousel-slide">
-                {(() => {
-                  const feature = features[currentSlide];
-                  const Icon = feature.icon;
-                  return (
+            <div
+              className="carousel-track"
+              style={{
+                transform: `translateX(-${currentSlide * 100}%)`,
+                transition: "transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              }}
+            >
+              {" "}
+              {features.map((feature, index) => {
+                const Icon = feature.icon;
+
+                return (
+                  <div key={feature.id} className="carousel-slide">
                     <div
-                      className={`feature-card ${activeIndex === currentSlide ? "active" : ""}`}
-                      onClick={() => handleCardClick(currentSlide)}
+                      className={`feature-card ${activeIndex === index ? "active" : ""}`}
+                      onClick={() => handleCardClick(index)}
                     >
                       <div className="feature-image-wrapper">
                         <Image
@@ -738,9 +747,9 @@ export default function WhyCodeCulture() {
                         </p>
                       </div>
                     </div>
-                  );
-                })()}
-              </div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Carousel Controls */}
