@@ -56,8 +56,7 @@ export default function WhyCodeCulture() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isMobile, isVisible]);
-
+  }, [isMobile, isVisible, features.length]);
   const features = [
     {
       id: 1,
@@ -308,18 +307,16 @@ export default function WhyCodeCulture() {
           }
         }
 
-        .carousel-container {
-          position: relative;
-          margin-bottom: 2rem;
-        }
-
+       .carousel-container {
+  position: relative;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
         .carousel-track {
-          display: flex;
-          gap: 1.5rem;
-          overflow: hidden;
-          border-radius: 16px;
-        }
-
+  display: flex;
+  border-radius: 16px;
+  will-change: transform;
+}
         @media (min-width: 768px) {
           .carousel-track {
             gap: 1.5rem;
@@ -327,8 +324,11 @@ export default function WhyCodeCulture() {
         }
 
         .carousel-slide {
-          flex: 0 0 100%;
-            min-width: 100%;
+  flex: 0 0 100%;
+  width: 100%;
+  padding: 0 8px;
+  box-sizing: border-box;
+
 
           animation: carouselSlide 0.5s ease-out forwards;
         }
