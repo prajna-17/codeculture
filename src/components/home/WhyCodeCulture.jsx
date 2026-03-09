@@ -18,6 +18,44 @@ export default function WhyCodeCulture() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const sectionRef = useRef(null);
   const sliderRef = useRef(null);
+  const features = [
+    {
+      id: 1,
+      title: "Innovation First",
+      description:
+        "Cutting-edge solutions powered by the latest technologies and creative thinking.",
+      icon: Zap,
+      image: "/img/node.jpg",
+      number: "01",
+    },
+    {
+      id: 2,
+      title: "Client-Centric Approach",
+      description:
+        "Your success is our mission. We work closely with you every step of the way.",
+      icon: Users,
+      image: "/img/react.jpg",
+      number: "02",
+    },
+    {
+      id: 3,
+      title: "End-to-End Expertise",
+      description:
+        "From concept to deployment, we handle every aspect of your project.",
+      icon: Rocket,
+      image: "/img/next.jpg",
+      number: "03",
+    },
+    {
+      id: 4,
+      title: "Trusted by Growing Brands",
+      description:
+        "Proven track record of delivering exceptional results for businesses worldwide.",
+      icon: Award,
+      image: "/img/aws.jpg",
+      number: "04",
+    },
+  ];
 
   useEffect(() => {
     const checkMobile = () => {
@@ -57,44 +95,6 @@ export default function WhyCodeCulture() {
 
     return () => clearInterval(interval);
   }, [isMobile, isVisible, features.length]);
-  const features = [
-    {
-      id: 1,
-      title: "Innovation First",
-      description:
-        "Cutting-edge solutions powered by the latest technologies and creative thinking.",
-      icon: Zap,
-      image: "/img/node.jpg",
-      number: "01",
-    },
-    {
-      id: 2,
-      title: "Client-Centric Approach",
-      description:
-        "Your success is our mission. We work closely with you every step of the way.",
-      icon: Users,
-      image: "/img/react.jpg",
-      number: "02",
-    },
-    {
-      id: 3,
-      title: "End-to-End Expertise",
-      description:
-        "From concept to deployment, we handle every aspect of your project.",
-      icon: Rocket,
-      image: "/img/next.jpg",
-      number: "03",
-    },
-    {
-      id: 4,
-      title: "Trusted by Growing Brands",
-      description:
-        "Proven track record of delivering exceptional results for businesses worldwide.",
-      icon: Award,
-      image: "/img/aws.jpg",
-      number: "04",
-    },
-  ];
 
   const handleNext = () => {
     setCurrentSlide((prev) => (prev + 1) % features.length);
