@@ -246,11 +246,11 @@ export default function ServicesGrid() {
                   )}
 
                   {/* Mobile tap indicator */}
-                  {isMobile && expandedCard !== index && (
+                  {/* {isMobile && expandedCard !== index && (
                     <div className="absolute top-4 right-4 text-xs bg-amber-200/80 text-amber-900 px-3 py-1 rounded-full font-semibold animate-pulse">
                       👆 Tap
                     </div>
-                  )}
+                  )} */}
 
                   {/* Mobile close indicator */}
                   {isMobile && expandedCard === index && (
