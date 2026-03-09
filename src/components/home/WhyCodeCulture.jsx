@@ -2,14 +2,31 @@
 
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { Zap, Users, Rocket, Award } from "lucide-react";
+import {
+  Zap,
+  Users,
+  Rocket,
+  Award,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 export default function WhyCodeCulture() {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const sectionRef = useRef(null);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -24,8 +41,22 @@ export default function WhyCodeCulture() {
       observer.observe(sectionRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      observer.disconnect();
+    };
   }, []);
+
+  // Auto-scroll carousel for mobile
+  useEffect(() => {
+    if (!isMobile || !isVisible) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % features.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isMobile, isVisible]);
 
   const features = [
     {
@@ -66,10 +97,25 @@ export default function WhyCodeCulture() {
     },
   ];
 
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev + 1) % features.length);
+    setActiveIndex((prev) => (prev + 1) % features.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentSlide((prev) => (prev - 1 + features.length) % features.length);
+    setActiveIndex((prev) => (prev - 1 + features.length) % features.length);
+  };
+
+  const handleCardClick = (index) => {
+    setActiveIndex(index);
+    setCurrentSlide(index);
+  };
+
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-gradient-to-b from-white via-gray-50 to-white py-32 overflow-hidden"
+      className="relative w-full bg-gradient-to-b from-white via-gray-50 to-white py-16 md:py-32 overflow-hidden"
     >
       <style>{`
         @keyframes fadeInUp {
@@ -155,31 +201,61 @@ export default function WhyCodeCulture() {
           to { transform: rotate(360deg); }
         }
 
+        @keyframes carouselSlide {
+          from {
+            opacity: 0;
+            transform: translateX(100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
         /* HEADER */
         .section-header {
           text-align: center;
-          margin-bottom: 4rem;
+          margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+          .section-header {
+            margin-bottom: 4rem;
+          }
         }
 
         .section-subtitle {
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           letter-spacing: 0.3em;
           color: #ff8c00;
           font-weight: 700;
           text-transform: uppercase;
-          margin-bottom: 1rem;
+          margin-bottom: 0.75rem;
           animation: fadeInUp 0.8s ease-out 0.1s both;
         }
 
+        @media (min-width: 768px) {
+          .section-subtitle {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+          }
+        }
+
         .section-title {
-          font-size: 2.5rem;
-          line-height: 1.1;
+          font-size: 1.75rem;
+          line-height: 1.2;
           font-weight: 900;
           color: #1a1a1a;
           letter-spacing: -0.02em;
           animation: fadeInUp 0.8s ease-out 0.2s both;
           max-width: 600px;
           margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+          .section-title {
+            font-size: 2.25rem;
+          }
         }
 
         @media (min-width: 768px) {
@@ -189,41 +265,77 @@ export default function WhyCodeCulture() {
         }
 
         .section-description {
-          margin-top: 1.5rem;
+          margin-top: 1rem;
           color: #666;
           max-width: 600px;
           margin-left: auto;
           margin-right: auto;
-          line-height: 1.8;
+          line-height: 1.6;
+          font-size: 0.95rem;
           animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
-        /* FEATURES GRID */
-        .features-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 2rem;
-          margin-bottom: 3rem;
+        @media (min-width: 768px) {
+          .section-description {
+            margin-top: 1.5rem;
+            line-height: 1.8;
+            font-size: 1rem;
+          }
         }
 
-        @media (min-width: 768px) {
-          .features-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem;
-          }
+        /* FEATURES GRID - DESKTOP ONLY */
+        .features-grid {
+          display: none;
         }
 
         @media (min-width: 1024px) {
           .features-grid {
+            display: grid;
             grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 3rem;
           }
+        }
+
+        /* MOBILE CAROUSEL */
+        .mobile-carousel {
+          display: block;
+        }
+
+        @media (min-width: 1024px) {
+          .mobile-carousel {
+            display: none;
+          }
+        }
+
+        .carousel-container {
+          position: relative;
+          margin-bottom: 2rem;
+        }
+
+        .carousel-track {
+          display: flex;
+          gap: 1.5rem;
+          overflow: hidden;
+          border-radius: 16px;
+        }
+
+        @media (min-width: 768px) {
+          .carousel-track {
+            gap: 1.5rem;
+          }
+        }
+
+        .carousel-slide {
+          flex: 0 0 100%;
+          animation: carouselSlide 0.5s ease-out forwards;
         }
 
         /* FEATURE CARD */
         .feature-card {
           position: relative;
           background: white;
-          border-radius: 20px;
+          border-radius: 16px;
           overflow: hidden;
           cursor: pointer;
           transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -232,6 +344,12 @@ export default function WhyCodeCulture() {
           display: flex;
           flex-direction: column;
           height: 100%;
+        }
+
+        @media (min-width: 768px) {
+          .feature-card {
+            border-radius: 20px;
+          }
         }
 
         .feature-card:nth-child(1) { animation-delay: 0.3s; }
@@ -245,6 +363,7 @@ export default function WhyCodeCulture() {
           transform: translateY(-10px);
         }
 
+        /* ACTIVE STATE - ONLY ON CLICK */
         .feature-card.active {
           border-color: #ff8c00;
           box-shadow: 0 20px 60px rgba(255, 140, 0, 0.25);
@@ -255,9 +374,27 @@ export default function WhyCodeCulture() {
         .feature-image-wrapper {
           position: relative;
           width: 100%;
-          height: 200px;
+          height: 140px;
           overflow: hidden;
           background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 107, 53, 0.1));
+        }
+
+        @media (min-width: 640px) {
+          .feature-image-wrapper {
+            height: 160px;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .feature-image-wrapper {
+            height: 180px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .feature-image-wrapper {
+            height: 200px;
+          }
         }
 
         .feature-image {
@@ -274,10 +411,10 @@ export default function WhyCodeCulture() {
         /* NUMBER BADGE */
         .feature-number {
           position: absolute;
-          top: 10px;
-          right: 10px;
-          width: 45px;
-          height: 45px;
+          top: 8px;
+          right: 8px;
+          width: 40px;
+          height: 40px;
           background: linear-gradient(135deg, #ff8c00, #ff6b35);
           color: white;
           border-radius: 50%;
@@ -285,29 +422,54 @@ export default function WhyCodeCulture() {
           align-items: center;
           justify-content: center;
           font-weight: 900;
-          font-size: 1.2rem;
+          font-size: 1rem;
           box-shadow: 0 5px 20px rgba(255, 140, 0, 0.3);
           animation: pulse 2s ease-in-out infinite;
         }
 
+        @media (min-width: 768px) {
+          .feature-number {
+            top: 10px;
+            right: 10px;
+            width: 45px;
+            height: 45px;
+            font-size: 1.2rem;
+          }
+        }
+
         /* CONTENT SECTION */
         .feature-content {
-          padding: 1.5rem;
+          padding: 1.25rem;
           display: flex;
           flex-direction: column;
           flex: 1;
         }
 
+        @media (min-width: 768px) {
+          .feature-content {
+            padding: 1.5rem;
+          }
+        }
+
         .feature-icon-wrapper {
-          width: 50px;
-          height: 50px;
+          width: 45px;
+          height: 45px;
           background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 107, 53, 0.15));
-          border-radius: 12px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 1rem;
+          margin-bottom: 0.75rem;
           transition: all 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+          .feature-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+          }
         }
 
         .feature-card:hover .feature-icon-wrapper {
@@ -318,6 +480,15 @@ export default function WhyCodeCulture() {
         .feature-icon {
           color: #ff8c00;
           transition: all 0.3s ease;
+          width: 22px;
+          height: 22px;
+        }
+
+        @media (min-width: 768px) {
+          .feature-icon {
+            width: 24px;
+            height: 24px;
+          }
         }
 
         .feature-card:hover .feature-icon {
@@ -325,11 +496,19 @@ export default function WhyCodeCulture() {
         }
 
         .feature-title {
-          font-size: 1.25rem;
+          font-size: 1.1rem;
           font-weight: 700;
           color: #1a1a1a;
-          margin-bottom: 0.75rem;
+          margin-bottom: 0.5rem;
           transition: color 0.3s ease;
+          line-height: 1.3;
+        }
+
+        @media (min-width: 768px) {
+          .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+          }
         }
 
         .feature-card:hover .feature-title {
@@ -338,9 +517,16 @@ export default function WhyCodeCulture() {
 
         .feature-description {
           color: #666;
-          font-size: 0.95rem;
-          line-height: 1.6;
+          font-size: 0.9rem;
+          line-height: 1.5;
           flex: 1;
+        }
+
+        @media (min-width: 768px) {
+          .feature-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+          }
         }
 
         /* DECORATIVE ELEMENTS */
@@ -352,99 +538,119 @@ export default function WhyCodeCulture() {
         }
 
         .blob-1 {
-          width: 400px;
-          height: 400px;
+          width: 300px;
+          height: 300px;
           background: #ff8c00;
-          top: -100px;
-          right: -100px;
+          top: -150px;
+          right: -150px;
           animation: float 8s ease-in-out infinite;
         }
 
+        @media (min-width: 768px) {
+          .blob-1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+          }
+        }
+
         .blob-2 {
-          width: 300px;
-          height: 300px;
+          width: 200px;
+          height: 200px;
           background: #ff6b35;
-          bottom: -50px;
-          left: -50px;
+          bottom: -100px;
+          left: -100px;
           animation: float 10s ease-in-out infinite;
           animation-delay: 2s;
         }
 
-        /* BOTTOM SECTION */
-        .features-bottom {
-          background: linear-gradient(135deg, #ff8c00 0%, #ff6b35 100%);
-          border-radius: 25px;
-          padding: 3rem 2rem;
-          color: white;
-          text-align: center;
-          animation: fadeInUp 0.8s ease-out 0.7s both;
-          margin-top: 2rem;
-        }
-
         @media (min-width: 768px) {
-          .features-bottom {
-            padding: 3rem;
+          .blob-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -50px;
+            left: -50px;
           }
-        }
-
-        .bottom-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin-bottom: 1rem;
-        }
-
-        .bottom-description {
-          font-size: 1rem;
-          line-height: 1.7;
-          opacity: 0.95;
-          max-width: 500px;
-          margin: 0 auto;
-        }
-
-        /* STATS */
-        .stats-container {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 2rem;
-          margin-top: 2rem;
-          padding-top: 2rem;
-          border-top: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        @media (max-width: 640px) {
-          .stats-container {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-          }
-        }
-
-        .stat-item {
-          animation: scaleIn 0.6s ease-out both;
-        }
-
-        .stat-item:nth-child(2) { animation-delay: 0.2s; }
-        .stat-item:nth-child(3) { animation-delay: 0.4s; }
-
-        .stat-number {
-          font-size: 2rem;
-          font-weight: 900;
-          display: block;
-          margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-          font-size: 0.9rem;
-          opacity: 0.9;
         }
 
         /* SECTION DIVIDER */
         .section-divider {
-          width: 60px;
-          height: 4px;
+          width: 50px;
+          height: 3px;
           background: linear-gradient(90deg, #ff8c00, #ff6b35);
-          margin: 0 auto 2rem;
+          margin: 0 auto 1.5rem;
           border-radius: 2px;
           animation: slideInRight 0.8s ease-out 0.2s both;
+        }
+
+        @media (min-width: 768px) {
+          .section-divider {
+            width: 60px;
+            height: 4px;
+            margin-bottom: 2rem;
+          }
+        }
+
+        /* CAROUSEL CONTROLS */
+        .carousel-controls {
+          display: flex;
+          justify-content: center;
+          gap: 0.75rem;
+          margin-top: 1.5rem;
+          flex-wrap: wrap;
+        }
+
+        .carousel-nav-btn {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          background: white;
+          border: 2px solid rgba(255, 140, 0, 0.2);
+          color: #ff8c00;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          font-weight: 600;
+        }
+
+        .carousel-nav-btn:active {
+          transform: scale(0.95);
+        }
+
+        .carousel-nav-btn:hover {
+          border-color: #ff8c00;
+          background: rgba(255, 140, 0, 0.05);
+        }
+
+        .carousel-dots {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-top: 1.5rem;
+        }
+
+        .carousel-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: rgba(255, 140, 0, 0.2);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 2px solid transparent;
+        }
+
+        .carousel-dot.active {
+          background: #ff8c00;
+          width: 32px;
+          border-radius: 6px;
+          box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+
+        .carousel-dot:hover {
+          background: rgba(255, 140, 0, 0.4);
         }
       `}</style>
 
@@ -452,7 +658,7 @@ export default function WhyCodeCulture() {
       <div className="absolute decoration-blob blob-1" />
       <div className="absolute decoration-blob blob-2" />
 
-      <div className="max-w-[1300px] mx-auto px-6 md:px-8 relative z-10">
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         {/* HEADER */}
         <div className="section-header">
           <div className="section-divider" />
@@ -464,7 +670,7 @@ export default function WhyCodeCulture() {
           </p>
         </div>
 
-        {/* FEATURES GRID */}
+        {/* DESKTOP GRID */}
         <div className="features-grid">
           {features.map((feature, index) => {
             const Icon = feature.icon;
@@ -473,6 +679,7 @@ export default function WhyCodeCulture() {
                 key={feature.id}
                 className={`feature-card ${activeIndex === index ? "active" : ""}`}
                 onMouseEnter={() => setActiveIndex(index)}
+                onClick={() => handleCardClick(index)}
               >
                 <div className="feature-image-wrapper">
                   <Image
@@ -487,7 +694,7 @@ export default function WhyCodeCulture() {
 
                 <div className="feature-content">
                   <div className="feature-icon-wrapper">
-                    <Icon className="feature-icon" size={24} />
+                    <Icon className="feature-icon" />
                   </div>
                   <h3 className="feature-title">{feature.title}</h3>
                   <p className="feature-description">{feature.description}</p>
@@ -497,30 +704,79 @@ export default function WhyCodeCulture() {
           })}
         </div>
 
-        {/* BOTTOM SECTION WITH STATS */}
-        {/* <div className="features-bottom">
-          <h3 className="bottom-title">Our Impact & Commitment</h3>
-          <p className="bottom-description">
-            With years of experience and a passion for excellence, we've helped
-            countless businesses achieve their digital goals and exceed
-            expectations.
-          </p>
+        {/* MOBILE CAROUSEL */}
+        <div className="mobile-carousel">
+          <div className="carousel-container">
+            <div className="carousel-track">
+              <div className="carousel-slide">
+                {(() => {
+                  const feature = features[currentSlide];
+                  const Icon = feature.icon;
+                  return (
+                    <div
+                      className={`feature-card ${activeIndex === currentSlide ? "active" : ""}`}
+                      onClick={() => handleCardClick(currentSlide)}
+                    >
+                      <div className="feature-image-wrapper">
+                        <Image
+                          src={feature.image}
+                          alt={feature.title}
+                          width={300}
+                          height={200}
+                          className="feature-image"
+                        />
+                        <div className="feature-number">{feature.number}</div>
+                      </div>
 
-          <div className="stats-container">
-            <div className="stat-item">
-              <span className="stat-number">500+</span>
-              <span className="stat-label">Projects Delivered</span>
+                      <div className="feature-content">
+                        <div className="feature-icon-wrapper">
+                          <Icon className="feature-icon" />
+                        </div>
+                        <h3 className="feature-title">{feature.title}</h3>
+                        <p className="feature-description">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
             </div>
-            <div className="stat-item">
-              <span className="stat-number">98%</span>
-              <span className="stat-label">Client Satisfaction</span>
+
+            {/* Carousel Controls */}
+            <div className="carousel-controls">
+              <button
+                className="carousel-nav-btn"
+                onClick={handlePrev}
+                aria-label="Previous slide"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                className="carousel-nav-btn"
+                onClick={handleNext}
+                aria-label="Next slide"
+              >
+                <ChevronRight size={20} />
+              </button>
             </div>
-            <div className="stat-item">
-              <span className="stat-number">50+</span>
-              <span className="stat-label">Team Members</span>
+
+            {/* Carousel Dots */}
+            <div className="carousel-dots">
+              {features.map((_, index) => (
+                <button
+                  key={index}
+                  className={`carousel-dot ${currentSlide === index ? "active" : ""}`}
+                  onClick={() => {
+                    setCurrentSlide(index);
+                    setActiveIndex(index);
+                  }}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </section>
   );
