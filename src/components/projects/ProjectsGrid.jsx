@@ -18,19 +18,24 @@ export default function ProjectsGrid() {
   const projects = [
     {
       name: "Suryavastra",
-      img: "/img/project1.jpg",
+      img: "/img/suryavastra.png",
       category: "Web Development",
     },
     {
       name: "Aatulvam",
-      img: "/img/project2.jpg",
+      img: "/img/aatulyam.png",
       category: "Mobile App Development",
     },
     { name: "Lebah", img: "/img/project3.jpg", category: "Web Development" },
     {
       name: "College Connect",
-      img: "/img/project4.jpg",
+      img: "/img/cc.png",
       category: "Mobile App Development",
+    },
+    {
+      name: "Lebah",
+      img: "/img/lebah.png",
+      category: "Web Development",
     },
   ];
 

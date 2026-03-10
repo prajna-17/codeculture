@@ -6,11 +6,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Technologies() {
   const tech = [
-    { id: 1, title: "Node.js", img: "/img/node.jpg" },
-    { id: 2, title: "React.js", img: "/img/react.jpg" },
-    { id: 3, title: "Next.js", img: "/img/next.jpg" },
-    { id: 4, title: "AWS", img: "/img/aws.jpg" },
-    { id: 5, title: "TypeScript", img: "/img/typescript.jpg" },
+    { id: 1, title: "Node.js", img: "/img/node.jpeg" },
+    { id: 2, title: "React.js", img: "/img/react.jpeg" },
+    { id: 3, title: "Next.js", img: "/img/next.jpeg" },
+    { id: 4, title: "AWS", img: "/img/aaws.jpeg" },
+    { id: 5, title: "MongoDB", img: "/img/mongo.jpeg" },
   ];
 
   const [index, setIndex] = useState(0);
