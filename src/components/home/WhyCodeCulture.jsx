@@ -25,7 +25,7 @@ export default function WhyCodeCulture() {
       description:
         "Cutting-edge solutions powered by the latest technologies and creative thinking.",
       icon: Zap,
-      image: "/img/node.jpg",
+      image: "/img/wcc1.jpeg",
       number: "01",
     },
     {
@@ -34,7 +34,7 @@ export default function WhyCodeCulture() {
       description:
         "Your success is our mission. We work closely with you every step of the way.",
       icon: Users,
-      image: "/img/react.jpg",
+      image: "/img/wcc2.jpeg",
       number: "02",
     },
     {
@@ -43,7 +43,7 @@ export default function WhyCodeCulture() {
       description:
         "From concept to deployment, we handle every aspect of your project.",
       icon: Rocket,
-      image: "/img/next.jpg",
+      image: "/img/wcc3.jpeg",
       number: "03",
     },
     {
@@ -52,7 +52,7 @@ export default function WhyCodeCulture() {
       description:
         "Proven track record of delivering exceptional results for businesses worldwide.",
       icon: Award,
-      image: "/img/aws.jpg",
+      image: "/img/wcc4.jpeg",
       number: "04",
     },
   ];
