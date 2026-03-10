@@ -26,7 +26,6 @@ export default function ProjectsGrid() {
       img: "/img/aatulyam.png",
       category: "Mobile App Development",
     },
-    { name: "Lebah", img: "/img/project3.jpg", category: "Web Development" },
     {
       name: "College Connect",
       img: "/img/cc.png",
