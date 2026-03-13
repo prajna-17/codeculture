@@ -34,7 +34,7 @@ export default function ProjectsHero() {
             }`}
           >
             <Image
-              src="/img/projects-hero.png"
+              src="/img/org.png"
               alt="projects showcase"
               fill
               className="object-contain"

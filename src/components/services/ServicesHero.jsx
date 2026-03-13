@@ -105,7 +105,7 @@ export default function ServicesHero() {
           >
             <div className="relative rounded-3xl overflow-hidden border-4 border-amber-300/40 shadow-2xl bg-white h-80 md:h-96">
               <Image
-                src="/img/services-hero.png"
+                src="/img/cus.png"
                 alt="Services illustration"
                 fill
                 className="object-contain"
