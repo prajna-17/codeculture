@@ -96,8 +96,8 @@ export default function Header() {
             <Image
               src="/img/logo.png"
               alt="Code Culture"
-              width={160}
-              height={50}
+              width={120}
+              height={38}
               priority
             />
           </Link>
@@ -141,8 +141,8 @@ export default function Header() {
           <Image
             src="/img/logo.png"
             alt="Code Culture"
-            width={140}
-            height={40}
+            width={110}
+            height={34}
           />
           <button
             className="mobile-close-btn"
@@ -183,15 +183,25 @@ export default function Header() {
           <div className="mobile-divider" />
 
           {/* Services Accordion */}
-          <div
-            className="mobile-nav-item mobile-nav-accordion"
-            onClick={() => setServicesOpen(!servicesOpen)}
-          >
+          <div className="mobile-nav-item mobile-nav-accordion">
             <span className="mobile-nav-icon">
               <Wrench size={20} />
             </span>
-            <span className="mobile-nav-label">Services</span>
-            <span className="mobile-nav-chevron">
+            <Link
+              href="/services"
+              className="mobile-nav-label"
+              onClick={() => setOpen(false)}
+            >
+              Services
+            </Link>{" "}
+            <span
+              className="mobile-nav-chevron"
+              onClick={(e) => {
+                e.stopPropagation();
+                setServicesOpen(!servicesOpen);
+              }}
+            >
+              {" "}
               {servicesOpen ? (
                 <ChevronUp size={18} />
               ) : (

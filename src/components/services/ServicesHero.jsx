@@ -103,8 +103,7 @@ export default function ServicesHero() {
                 : "opacity-0 translate-x-12"
             }`}
           >
-            <div className="relative rounded-3xl overflow-hidden border-4 border-amber-300/40 shadow-2xl bg-white h-48 md:h-64">
-              {" "}
+            <div className="relative rounded-3xl overflow-hidden border-4 border-amber-300/40 shadow-2xl bg-white h-80 md:h-96">
               <Image
                 src="/img/cus.png"
                 alt="Services illustration"
