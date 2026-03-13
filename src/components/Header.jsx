@@ -96,8 +96,8 @@ export default function Header() {
             <Image
               src="/img/logo.png"
               alt="Code Culture"
-              width={120}
-              height={38}
+              width={95}
+              height={30}
               priority
             />
           </Link>
@@ -141,8 +141,8 @@ export default function Header() {
           <Image
             src="/img/logo.png"
             alt="Code Culture"
-            width={110}
-            height={34}
+            width={85}
+            height={26}
           />
           <button
             className="mobile-close-btn"
