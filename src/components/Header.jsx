@@ -144,8 +144,8 @@ export default function Header() {
           <Image
             src="/img/logo.png"
             alt="Code Culture"
-            width={85}
-            height={26}
+            width={70}
+            height={22}
           />
           <button
             className="mobile-close-btn"
