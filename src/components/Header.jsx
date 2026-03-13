@@ -61,33 +61,36 @@ export default function Header() {
 
   const serviceLinks = [
     {
-      href: "/services/web-development",
+      href: "/services#web-development",
       label: "Web Development",
       icon: Monitor,
     },
     {
-      href: "/services/app-development",
+      href: "/services#app-development",
       label: "App Development",
       icon: Smartphone,
     },
     {
-      href: "/services/digital-marketing",
+      href: "/services#digital-marketing",
       label: "Digital Marketing",
       icon: Megaphone,
     },
-    { href: "/services/ui-ux", label: "UI/UX Design", icon: Paintbrush },
     {
-      href: "/services/domain-hosting",
+      href: "/services#ui-ux",
+      label: "UI/UX Design",
+      icon: Paintbrush,
+    },
+    {
+      href: "/services#domain-hosting",
       label: "Domain & Hosting",
       icon: Globe,
     },
     {
-      href: "/services/maintenance",
+      href: "/services#maintenance",
       label: "Website Maintenance",
       icon: Settings,
     },
   ];
-
   return (
     <>
       <header className={`header ${scrolled ? "scrolled" : ""}`}>

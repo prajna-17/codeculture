@@ -25,43 +25,48 @@ export default function ServicesGrid() {
 
   const services = [
     {
+      id: "web-development",
       title: "Website Development",
       img: "/img/develop.png",
       description: "Custom, responsive websites built with modern technologies",
       features: ["Responsive Design", "SEO Optimized", "Fast Loading"],
     },
     {
+      id: "app-development",
       title: "App Development",
       img: "/img/app.png",
       description: "Native and cross-platform mobile applications",
       features: ["iOS & Android", "User-Friendly", "Scalable"],
     },
     {
+      id: "digital-marketing",
       title: "Digital Marketing",
       img: "/img/digital.png",
       description: "Strategic digital marketing campaigns to boost your brand",
       features: ["SEO Services", "Social Media", "Content Strategy"],
     },
     {
+      id: "maintenance",
       title: "Website Maintenance",
       img: "/img/website.png",
       description: "Ongoing support and maintenance for your digital assets",
       features: ["24/7 Support", "Updates", "Security"],
     },
     {
+      id: "ui-ux",
       title: "UI/UX Design",
       img: "/img/ui.png",
       description: "Beautiful, intuitive designs that users love",
       features: ["Wireframing", "Prototyping", "User Testing"],
     },
     {
+      id: "domain-hosting",
       title: "Domain & Hosting",
       img: "/img/domain.png",
       description: "Reliable domain registration and hosting solutions",
       features: ["99.9% Uptime", "SSL Certificates", "24/7 Support"],
     },
   ];
-
   return (
     <section
       id="services-section"
@@ -128,6 +133,7 @@ export default function ServicesGrid() {
           {services.map((service, index) => (
             <div
               key={index}
+              id={service.id}
               className={`transition-all duration-700 ${
                 isLoaded
                   ? "opacity-100 translate-y-0"
