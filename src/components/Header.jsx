@@ -3,23 +3,53 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import {
+  Menu,
+  X,
+  Home,
+  Info,
+  Wrench,
+  FolderOpen,
+  Phone,
+  Monitor,
+  Smartphone,
+  Megaphone,
+  Paintbrush,
+  Globe,
+  Settings,
+  ChevronDown,
+  ChevronUp,
+  Facebook,
+  Instagram,
+  Linkedin,
+} from "lucide-react";
 import "./header.css";
 import { usePathname } from "next/navigation";
+
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   const navLinks = [
     { href: "/", label: "Home", id: "home" },
@@ -29,66 +59,210 @@ export default function Header() {
     { href: "/contact", label: "Contact Us", id: "contact" },
   ];
 
+  const serviceLinks = [
+    {
+      href: "/services/web-development",
+      label: "Web Development",
+      icon: Monitor,
+    },
+    {
+      href: "/services/app-development",
+      label: "App Development",
+      icon: Smartphone,
+    },
+    {
+      href: "/services/digital-marketing",
+      label: "Digital Marketing",
+      icon: Megaphone,
+    },
+    { href: "/services/ui-ux", label: "UI/UX Design", icon: Paintbrush },
+    {
+      href: "/services/domain-hosting",
+      label: "Domain & Hosting",
+      icon: Globe,
+    },
+    {
+      href: "/services/maintenance",
+      label: "Website Maintenance",
+      icon: Settings,
+    },
+  ];
+
   return (
-    <header className={`header ${scrolled ? "scrolled" : ""}`}>
-      <div className="container">
-        <Link href="/" className="logo-wrapper">
+    <>
+      <header className={`header ${scrolled ? "scrolled" : ""}`}>
+        <div className="container">
+          <Link href="/" className="logo-wrapper">
+            <Image
+              src="/img/logo.png"
+              alt="Code Culture"
+              width={160}
+              height={50}
+              priority
+            />
+          </Link>
+
+          <nav className="nav">
+            {navLinks.map((link) => (
+              <Link
+                key={link.id}
+                href={link.href}
+                className={pathname === link.href ? "active" : ""}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <Link href="/contact" className="explore">
+            Explore Now
+            <span className="arrow-icon">→</span>
+          </Link>
+
+          <button
+            className="hamburger"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      {open && (
+        <div className="mobile-overlay" onClick={() => setOpen(false)} />
+      )}
+
+      {/* Mobile Menu Drawer */}
+      <div className={`mobileMenu ${open ? "open" : ""}`}>
+        {/* Header */}
+        <div className="mobile-header">
           <Image
             src="/img/logo.png"
             alt="Code Culture"
-            width={160}
-            height={50}
-            priority
+            width={140}
+            height={40}
           />
-        </Link>
+          <button
+            className="mobile-close-btn"
+            onClick={() => setOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={24} />
+          </button>
+        </div>
 
-        <nav className="nav">
-          {navLinks.map((link) => (
-            <Link
-              key={link.id}
-              href={link.href}
-              className={pathname === link.href ? "active" : ""}
-              onClick={() => setActiveLink(link.id)}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        {/* Orange gradient bar */}
+        <div className="mobile-accent-bar" />
 
-        <Link href="/contact" className="explore">
-          Explore Now
-          <span className="arrow-icon">→</span>
-        </Link>
+        {/* Nav Links */}
+        <div className="mobile-links">
+          <Link
+            href="/"
+            className="mobile-nav-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="mobile-nav-icon">
+              <Home size={20} />
+            </span>
+            <span className="mobile-nav-label">Home</span>
+          </Link>
+          <div className="mobile-divider" />
 
-        <button className="hamburger" onClick={() => setOpen(!open)}>
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
+          <Link
+            href="/about"
+            className="mobile-nav-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="mobile-nav-icon">
+              <Info size={20} />
+            </span>
+            <span className="mobile-nav-label">About Us</span>
+          </Link>
+          <div className="mobile-divider" />
 
-      {open && (
-        <div className="mobileMenu open">
-          {navLinks.map((link) => (
-            <Link
-              key={link.id}
-              href={link.href}
-              onClick={() => {
-                setActiveLink(link.id);
-                setOpen(false);
-              }}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {/* Services Accordion */}
+          <div
+            className="mobile-nav-item mobile-nav-accordion"
+            onClick={() => setServicesOpen(!servicesOpen)}
+          >
+            <span className="mobile-nav-icon">
+              <Wrench size={20} />
+            </span>
+            <span className="mobile-nav-label">Services</span>
+            <span className="mobile-nav-chevron">
+              {servicesOpen ? (
+                <ChevronUp size={18} />
+              ) : (
+                <ChevronDown size={18} />
+              )}
+            </span>
+          </div>
+
+          <div
+            className={`mobile-services-dropdown ${servicesOpen ? "open" : ""}`}
+          >
+            {serviceLinks.map((service) => {
+              const Icon = service.icon;
+              return (
+                <Link
+                  key={service.href}
+                  href={service.href}
+                  className="mobile-service-item"
+                  onClick={() => {
+                    setOpen(false);
+                    setServicesOpen(false);
+                  }}
+                >
+                  <span className="mobile-service-icon">
+                    <Icon size={18} />
+                  </span>
+                  <span>{service.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+          <div className="mobile-divider" />
+
+          <Link
+            href="/projects"
+            className="mobile-nav-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="mobile-nav-icon">
+              <FolderOpen size={20} />
+            </span>
+            <span className="mobile-nav-label">Projects</span>
+          </Link>
+          <div className="mobile-divider" />
 
           <Link
             href="/contact"
-            className="explore-mobile"
+            className="mobile-nav-item"
             onClick={() => setOpen(false)}
           >
-            Explore Now →
+            <span className="mobile-nav-icon">
+              <Phone size={20} />
+            </span>
+            <span className="mobile-nav-label">Contact Us</span>
           </Link>
+          <div className="mobile-divider" />
         </div>
-      )}
-    </header>
+
+        {/* Social Icons */}
+        <div className="mobile-social">
+          <a href="#" aria-label="Facebook" className="social-icon-link">
+            <Facebook size={20} />
+          </a>
+          <a href="#" aria-label="Instagram" className="social-icon-link">
+            <Instagram size={20} />
+          </a>
+          <a href="#" aria-label="LinkedIn" className="social-icon-link">
+            <Linkedin size={20} />
+          </a>
+        </div>
+      </div>
+    </>
   );
 }

@@ -28,29 +28,40 @@ export default function ContactForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const message = `Hello, I am ${formData.name}.
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+Message: ${formData.message}`;
+
+    const whatsappURL = `https://wa.me/91123457890?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappURL, "_blank");
+
     setSubmitted(true);
     setFormData({ name: "", email: "", phone: "", message: "" });
+
     setTimeout(() => setSubmitted(false), 3000);
   };
-
   const contactItems = [
     {
       icon: Mail,
       label: "Email",
-      value: "info@codeculture.com",
-      href: "mailto:info@codeculture.com",
+      value: "kunalsingh67678@gmail.com",
+      href: "https://mail.google.com/mail/?view=cm&fs=1&to=kunalsingh67678@gmail.com",
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+91 123457890",
-      href: "tel:+91123457890",
+      value: "+91 8595506516",
+      href: "tel:+918595506516",
     },
     {
       icon: MapPin,
       label: "Location",
       value: "Phase 3, Noida",
-      href: "#",
+      href: "https://maps.google.com/?q=Phase+3+Noida",
     },
   ];
 
@@ -277,6 +288,8 @@ export default function ContactForm() {
                     <a
                       key={idx}
                       href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group flex items-start gap-4 p-4 rounded-lg hover:bg-gradient-to-r hover:from-orange-100/40 hover:to-amber-100/40 transition-all duration-300 border border-transparent hover:border-amber-400/40 cursor-pointer"
                     >
                       <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-orange-200/40 to-amber-200/40 flex items-center justify-center group-hover:from-orange-300/50 group-hover:to-amber-300/50 transition-all duration-300">

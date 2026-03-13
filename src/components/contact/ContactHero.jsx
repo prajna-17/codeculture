@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { useRouter } from "next/navigation";
 export default function ContactHero() {
+  const router = useRouter();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -121,7 +122,10 @@ export default function ContactHero() {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <button className="group relative px-8 md:px-10 py-3 md:py-4 bg-gradient-to-r from-amber-700 to-orange-700 text-white font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-700/50 hover:-translate-y-1 active:translate-y-0">
+          <button
+            onClick={() => router.push("/projects")}
+            className="group relative px-8 md:px-10 py-3 md:py-4 bg-gradient-to-r from-amber-700 to-orange-700 text-white font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-700/50 hover:-translate-y-1 active:translate-y-0"
+          >
             <span className="relative z-10 flex items-center justify-center gap-2">
               Start a Project
               <svg
@@ -141,7 +145,12 @@ export default function ContactHero() {
             <div className="absolute inset-0 bg-gradient-to-r from-orange-800 to-red-800 -z-10 transition-transform scale-0 group-hover:scale-100 origin-center duration-500" />
           </button>
 
-          <button className="group px-8 md:px-10 py-3 md:py-4 border-2 border-amber-700 text-amber-900 font-semibold rounded-lg transition-all duration-300 hover:border-amber-600 hover:text-white hover:bg-amber-700 hover:-translate-y-1 active:translate-y-0">
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=kunalsingh67678@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group px-8 md:px-10 py-3 md:py-4 border-2 border-amber-700 text-amber-900 font-semibold rounded-lg transition-all duration-300 hover:border-amber-600 hover:text-white hover:bg-amber-700 hover:-translate-y-1 active:translate-y-0"
+          >
             <span className="flex items-center justify-center gap-2">
               <svg
                 className="w-5 h-5"
@@ -158,7 +167,7 @@ export default function ContactHero() {
               </svg>
               Get in Touch
             </span>
-          </button>
+          </a>
         </div>
 
         {/* Floating stats or metrics */}

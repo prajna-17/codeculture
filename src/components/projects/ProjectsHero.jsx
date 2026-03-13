@@ -9,7 +9,12 @@ export default function ProjectsHero() {
   useEffect(() => {
     setIsLoaded(true);
   }, []);
-
+  const scrollToProjects = () => {
+    const section = document.getElementById("projects-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-white via-amber-50/60 to-white py-16 md:py-28">
       {/* Decorative background */}
@@ -118,7 +123,10 @@ export default function ProjectsHero() {
                   : "opacity-0 translate-y-8"
               }`}
             >
-              <button className="px-8 md:px-10 py-3 md:py-4 bg-gradient-to-r from-amber-700 to-orange-700 text-white font-semibold rounded-lg hover:shadow-xl transition-all w-full md:w-auto">
+              <button
+                onClick={scrollToProjects}
+                className="px-8 md:px-10 py-3 md:py-4 bg-gradient-to-r from-amber-700 to-orange-700 text-white font-semibold rounded-lg hover:shadow-xl transition-all w-full md:w-auto"
+              >
                 View All Projects →
               </button>
             </div>

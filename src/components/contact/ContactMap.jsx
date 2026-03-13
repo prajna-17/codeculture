@@ -44,24 +44,30 @@ export default function ContactMap() {
               title: "Address",
               content: "Phase 3, Noida",
               subtext: "Our main office",
+              link: "https://maps.google.com/?q=Phase+3+Noida",
             },
             {
               icon: Phone,
               title: "Call Us",
-              content: "+91 123457890",
+              content: "+91 8595506516",
               subtext: "Monday to Friday, 9AM-6PM",
+              link: "tel:+918595506516",
             },
             {
               icon: Mail,
               title: "Email Us",
-              content: "info@codeculture.com",
+              content: "kunalsingh67678@gmail.com",
               subtext: "We'll respond within 24 hours",
+              link: "https://mail.google.com/mail/?view=cm&fs=1&to=kunalsingh67678@gmail.com",
             },
           ].map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div
+              <a
                 key={idx}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`group transition-all duration-700 ${
                   isLoaded
                     ? "opacity-100 translate-y-0"
@@ -92,7 +98,7 @@ export default function ContactMap() {
                     {item.content}
                   </p>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>

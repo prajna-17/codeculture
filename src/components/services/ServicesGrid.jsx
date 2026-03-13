@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ArrowRight, X } from "lucide-react";
-
+import Link from "next/link";
 export default function ServicesGrid() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -63,7 +63,11 @@ export default function ServicesGrid() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-white to-orange-50 py-20 md:py-32">
+    <section
+      id="services-section"
+      className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-white to-orange-50 py-20 md:py-32"
+    >
+      {" "}
       {/* Wavy background SVG */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Top wavy SVG */}
@@ -95,7 +99,6 @@ export default function ServicesGrid() {
         <div className="absolute bottom-32 right-10 w-48 h-48 bg-gradient-to-tl from-orange-300/15 to-amber-300/15 rounded-full blur-3xl animate-pulse animation-delay-2000" />
         <div className="absolute top-1/2 left-1/4 w-40 h-40 bg-gradient-to-br from-amber-200/10 to-orange-200/10 rounded-full blur-2xl animate-pulse animation-delay-1000" />
       </div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8">
         {/* HEADER */}
         <div
@@ -219,22 +222,26 @@ export default function ServicesGrid() {
                   )}
 
                   {/* Learn More Button */}
-                  <button
-                    className={`group/btn w-full mt-auto px-6 py-3 bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-800 hover:to-orange-800 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-orange-700/40 hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 overflow-hidden relative ${
-                      hoveredCard === index || expandedCard === index
-                        ? "opacity-100"
-                        : "opacity-90"
-                    }`}
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      LEARN MORE
-                      <ArrowRight
-                        size={18}
-                        className="group-hover/btn:translate-x-1 transition-transform"
-                      />
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-800 to-red-800 -z-10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                  </button>
+                  {/* Learn More Button (Mobile only) */}
+                  {isMobile && (
+                    <button
+                      className={`group/btn w-full mt-auto px-6 py-3 bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-800 hover:to-orange-800 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-orange-700/40 hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 overflow-hidden relative ${
+                        hoveredCard === index || expandedCard === index
+                          ? "opacity-100"
+                          : "opacity-90"
+                      }`}
+                    >
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        LEARN MORE
+                        <ArrowRight
+                          size={18}
+                          className="group-hover/btn:translate-x-1 transition-transform"
+                        />
+                      </span>
+
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-800 to-red-800 -z-10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                    </button>
+                  )}
 
                   {/* Floating particles on interaction */}
                   {(hoveredCard === index || expandedCard === index) && (
@@ -273,7 +280,10 @@ export default function ServicesGrid() {
           <p className="text-amber-900/70 text-lg mb-6">
             Ready to transform your business?
           </p>
-          <button className="group relative px-10 md:px-14 py-4 bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-800 hover:to-orange-800 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-700/50 hover:-translate-y-1 active:translate-y-0">
+          <Link
+            href="/contact"
+            className="group relative px-10 md:px-14 py-4 bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-800 hover:to-orange-800 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-700/50 hover:-translate-y-1 active:translate-y-0 inline-flex items-center justify-center"
+          >
             <span className="relative z-10 flex items-center justify-center gap-2">
               Get Started Today
               <ArrowRight
@@ -281,11 +291,11 @@ export default function ServicesGrid() {
                 className="group-hover:translate-x-1 transition-transform"
               />
             </span>
+
             <div className="absolute inset-0 bg-gradient-to-r from-orange-800 to-red-800 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </button>
+          </Link>
         </div>
       </div>
-
       <style jsx>{`
         @keyframes fade-in {
           from {

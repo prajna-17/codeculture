@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Eye, Target, ArrowRight } from "lucide-react";
-
 export default function VisionMission() {
   const [isVisible, setIsVisible] = useState(false);
   const [activeCard, setActiveCard] = useState(null);
@@ -609,10 +608,10 @@ export default function VisionMission() {
               secure, and future-proof.
             </p>
 
-            <div className="card-arrow">
+            {/* <div className="card-arrow">
               Explore Vision
               <ArrowRight size={18} />
-            </div>
+            </div> */}
 
             <div className="card-divider" />
           </div>
@@ -640,10 +639,10 @@ export default function VisionMission() {
               improvement.
             </p>
 
-            <div className="card-arrow">
+            {/* <div className="card-arrow">
               Explore Mission
               <ArrowRight size={18} />
-            </div>
+            </div> */}
 
             <div className="card-divider" />
           </div>

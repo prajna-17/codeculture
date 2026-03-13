@@ -68,13 +68,16 @@ export default function ProjectsGrid() {
   };
 
   return (
-    <section className="relative bg-gradient-to-b from-white via-amber-50/40 to-white py-20 md:py-32 overflow-hidden">
+    <section
+      id="projects-section"
+      className="relative bg-gradient-to-b from-white via-amber-50/40 to-white py-20 md:py-32 overflow-hidden"
+    >
+      {" "}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-0 w-80 h-80 bg-gradient-to-bl from-orange-200/15 to-amber-100/15 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-amber-100/15 to-orange-200/15 rounded-full blur-3xl" />
       </div>
-
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-8">
         {/* HEADER */}
         <div
@@ -274,7 +277,6 @@ export default function ProjectsGrid() {
           </div>
         )}
       </div>
-
       <style jsx>{`
         @keyframes fade-in {
           from {

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Code2, Smartphone, Palette } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
-
+import Link from "next/link";
 export default function TransformingIdeas() {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -387,17 +387,14 @@ export default function TransformingIdeas() {
           {/* RIGHT CONTENT */}
           <div className="content-wrapper">
             <p className="expertise-label">OUR EXPERTISE</p>
-
             <h2 className="expertise-title">
               Transforming ideas <br /> into digital excellence
             </h2>
-
             <p className="expertise-description">
               We combine cutting-edge technology with creative strategy to
               deliver solutions that drive real business impact and transform
               your vision into reality.
             </p>
-
             {/* SERVICES */}
             <div className="services-grid">
               {services.map((service, index) => {
@@ -417,9 +414,10 @@ export default function TransformingIdeas() {
                 );
               })}
             </div>
-
             {/* BUTTON */}
-            <button className="cta-button">View All Services →</button>
+            <Link href="/services" className="cta-button">
+              View All Services →
+            </Link>{" "}
           </div>
         </div>
       </div>

@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CheckCircle, Zap, Rocket, Crown } from "lucide-react";
-
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function WhyChoose() {
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [activeCard, setActiveCard] = useState(null);
   const sectionRef = useRef(null);
@@ -590,7 +592,9 @@ export default function WhyChoose() {
 
       {/* CTA BUTTON */}
       <div style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
-        <button className="cta-button">Work With Us</button>
+        <button className="cta-button" onClick={() => router.push("/contact")}>
+          Work With Us
+        </button>{" "}
       </div>
     </section>
   );

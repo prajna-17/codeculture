@@ -10,6 +10,13 @@ export default function ServicesHero() {
     setIsLoaded(true);
   }, []);
 
+  const scrollToServices = () => {
+    const section = document.getElementById("services-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-white via-amber-50/40 to-white py-16 md:py-28">
       {/* Decorative background */}
@@ -77,6 +84,7 @@ export default function ServicesHero() {
             </p>
 
             <button
+              onClick={scrollToServices}
               className={`group relative px-8 md:px-10 py-4 bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-800 hover:to-orange-800 text-white font-bold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl ${
                 isLoaded
                   ? "opacity-100 translate-y-0"

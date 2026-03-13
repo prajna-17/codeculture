@@ -43,9 +43,20 @@ export default function ProjectsContact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const message = `Hello, I am ${formData.name}.
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+Message: ${formData.message}`;
+
+    const whatsappURL = `https://wa.me/918595506516?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappURL, "_blank");
+
     setSubmitted(true);
     setFormData({ name: "", email: "", phone: "", message: "" });
-    setFieldStates({ name: false, email: false, phone: false, message: false });
+
     setTimeout(() => setSubmitted(false), 4000);
   };
 
@@ -251,14 +262,19 @@ export default function ProjectsContact() {
         {/* Contact Info Cards */}
         <div className="grid grid-cols-2 gap-4 md:gap-6 mt-12 md:mt-16">
           {[
-            { icon: Mail, label: "Email", value: "info@codeculture.com" },
-            { icon: Phone, label: "Phone", value: "+91 123457890" },
+            { icon: Mail, label: "Email", value: "kunalsingh67678@gmail.com" },
+            { icon: Phone, label: "Phone", value: "+91 8595506516" },
           ].map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div
+              <a
                 key={idx}
-                className={`group p-4 md:p-5 rounded-xl bg-white/5 backdrop-blur-sm border border-orange-400/20 hover:bg-white/10 hover:border-orange-400/40 transition-all duration-300 hover:-translate-y-1 transition-all duration-700 ${
+                href={
+                  item.label === "Email"
+                    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${item.value}`
+                    : `tel:${item.value.replace(/\s+/g, "")}`
+                }
+                className={`group p-4 md:p-5 rounded-xl bg-white/5 backdrop-blur-sm border border-orange-400/20 hover:bg-white/10 hover:border-orange-400/40 transition-all duration-300 hover:-translate-y-1 transition-all duration-700 block ${
                   isLoaded
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
@@ -275,7 +291,7 @@ export default function ProjectsContact() {
                 <p className="text-sm font-semibold text-orange-100 mt-1">
                   {item.value}
                 </p>
-              </div>
+              </a>
             );
           })}
         </div>
